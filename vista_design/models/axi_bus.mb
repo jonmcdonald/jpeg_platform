@@ -1,0 +1,168 @@
+# ============================ TLM Model File ============================
+# You can create tlm model by one of the following ways:
+#   - load this file using 'load_model' API function
+#   - compile this file using "Modeling->Load Model File" menu command.
+# ========================================================================
+template "/TLM/Generic_Library/Bus"
+
+# === ports ===
+add_port "bus_slave0" /TLM/protocols/axi slave 64 -bind_mode optional
+add_port "bus_slave1" /TLM/protocols/axi slave 64 -bind_mode optional
+add_port "h264_slave" /TLM/protocols/axi slave 64 -bind_mode optional
+add_port "lcd_slave" /TLM/protocols/axi slave 32 -bind_mode optional
+add_port "sram_master" /TLM/protocols/axi master 64 -bind_mode optional
+add_port "apb_master" /TLM/protocols/axi master 64 -bind_mode optional
+add_port "h264_master" /TLM/protocols/axi master 64 -bind_mode optional
+add_port "lcd_master" /TLM/protocols/axi master 32 -bind_mode optional
+add_port "jpeg_master" /TLM/protocols/axi master 32 -bind_mode optional
+add_port "io_master" /TLM/protocols/axi master 32 -bind_mode optional
+add_port "jpeg_slave" /TLM/protocols/axi slave 32 -bind_mode optional
+add_port "io_slave" /TLM/protocols/axi slave 32 -bind_mode optional
+add_port "eth_slave" /TLM/protocols/axi master 32 -bind_mode optional
+
+# === parameters ===
+# usage: add_parameter <parameter_name> <default_value> <type:string|unsigned|int>
+# example: add_parameter "parameter1" 12 unsigned
+
+# === auto parameters ===
+set_auto_parameter_default "clock" {10 ns} time {}
+set_auto_parameter_default "axi_clock" clock time {}
+set_auto_parameter_default "nominal_voltage" 1 double {}
+set_auto_parameter_default "verbose_parameters" true boolean {true false}
+set_auto_parameter_default "dmi_enabled" true boolean {true false}
+set_auto_parameter_default "warning_level" WARNING string {
+      "IGNORE" "WARNING" "ONCE" "ERROR" "FATAL"}
+set_auto_parameter_default "layers" {""} string {}
+set_auto_parameter_default "slave_sets" {""} string {}
+set_auto_parameter_default "write_broadcast" 0 uint32 {}
+set_auto_parameter_default "bus_slave0_priority" 0 uint32 {}
+set_auto_parameter_default "bus_slave0_vmap" {""} string {}
+set_auto_parameter_default "bus_slave1_priority" 0 uint32 {}
+set_auto_parameter_default "bus_slave1_vmap" {""} string {}
+set_auto_parameter_default "h264_slave_priority" 0 uint32 {}
+set_auto_parameter_default "h264_slave_vmap" {""} string {}
+set_auto_parameter_default "lcd_slave_priority" 0 uint32 {}
+set_auto_parameter_default "lcd_slave_vmap" {""} string {}
+set_auto_parameter_default "sram_master_priority" 0 uint32 {}
+set_auto_parameter_default "sram_master_base_address" 0 uint64 {}
+set_auto_parameter_default "sram_master_size" 0x10000000 uint64 {}
+set_auto_parameter_default "sram_master_subtract_base_address" 1 uint32 {0 1}
+set_auto_parameter_default "sram_master_secure" 0 uint32 {0 1}
+set_auto_parameter_default "sram_master_additional_ranges" {""} string {}
+set_auto_parameter_default "sram_master_latency" 0 uint32 {}
+set_auto_parameter_default "apb_master_priority" 0 uint32 {}
+set_auto_parameter_default "apb_master_base_address" 0x40000000 uint64 {}
+set_auto_parameter_default "apb_master_size" 0x10000000 uint64 {}
+set_auto_parameter_default "apb_master_subtract_base_address" 1 uint32 {0 1}
+set_auto_parameter_default "apb_master_secure" 0 uint32 {0 1}
+set_auto_parameter_default "apb_master_additional_ranges" {""} string {}
+set_auto_parameter_default "apb_master_latency" 0 uint32 {}
+set_auto_parameter_default "h264_master_priority" 0 uint32 {}
+set_auto_parameter_default "h264_master_base_address" 0x14004000 uint64 {}
+set_auto_parameter_default "h264_master_size" 0x1000 uint64 {}
+set_auto_parameter_default "h264_master_subtract_base_address" 1 uint32 {0 1}
+set_auto_parameter_default "h264_master_secure" 0 uint32 {0 1}
+set_auto_parameter_default "h264_master_additional_ranges" {""} string {}
+set_auto_parameter_default "h264_master_latency" 0 uint32 {}
+set_auto_parameter_default "lcd_master_priority" 0 uint32 {}
+set_auto_parameter_default "lcd_master_base_address" 0x14004000 uint64 {}
+set_auto_parameter_default "lcd_master_size" 0x1000 uint64 {}
+set_auto_parameter_default "lcd_master_subtract_base_address" 1 uint32 {0 1}
+set_auto_parameter_default "lcd_master_secure" 0 uint32 {0 1}
+set_auto_parameter_default "lcd_master_additional_ranges" {""} string {}
+set_auto_parameter_default "lcd_master_latency" 0 uint32 {}
+set_auto_parameter_default "jpeg_master_priority" 0 uint32 {}
+set_auto_parameter_default "jpeg_master_base_address" 0x10000000 uint64 {}
+set_auto_parameter_default "jpeg_master_size" 0x20 uint64 {}
+set_auto_parameter_default "jpeg_master_subtract_base_address" 1 uint32 {0 1}
+set_auto_parameter_default "jpeg_master_secure" 0 uint32 {0 1}
+set_auto_parameter_default "jpeg_master_additional_ranges" {""} string {}
+set_auto_parameter_default "jpeg_master_latency" 0 uint32 {}
+set_auto_parameter_default "io_master_priority" 0 uint32 {}
+set_auto_parameter_default "io_master_base_address" 0x10000020 uint64 {}
+set_auto_parameter_default "io_master_size" 0x20 uint64 {}
+set_auto_parameter_default "io_master_subtract_base_address" 1 uint32 {0 1}
+set_auto_parameter_default "io_master_secure" 0 uint32 {0 1}
+set_auto_parameter_default "io_master_additional_ranges" {""} string {}
+set_auto_parameter_default "io_master_latency" 0 uint32 {}
+set_auto_parameter_default "jpeg_slave_priority" 0 uint32 {}
+set_auto_parameter_default "jpeg_slave_vmap" {""} string {}
+set_auto_parameter_default "io_slave_priority" 0 uint32 {}
+set_auto_parameter_default "io_slave_vmap" {""} string {}
+set_auto_parameter_default "eth_slave_priority" 0 uint32 {}
+set_auto_parameter_default "eth_slave_base_address" 0x14005000 uint64 {}
+set_auto_parameter_default "eth_slave_size" 0x10 uint64 {}
+set_auto_parameter_default "eth_slave_subtract_base_address" 1 uint32 {0 1}
+set_auto_parameter_default "eth_slave_secure" 0 uint32 {0 1}
+set_auto_parameter_default "eth_slave_additional_ranges" {""} string {}
+set_auto_parameter_default "eth_slave_latency" 0 uint32 {}
+
+# === generics ===
+# usage: add_generic <generic_name> <value>
+# example: add_generic "OUT_ACTIVE_VALUE" false
+
+# === machine architecture ===
+set_sync_all 0
+add_delay_policy bus_slave0 0 -latency 0 -sync 1 -power 0
+add_pipeline_policy sram_master bus_slave0 -latency sram_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy apb_master bus_slave0 -latency apb_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy h264_master bus_slave0 -latency h264_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy lcd_master bus_slave0 -latency lcd_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy jpeg_master bus_slave0 -latency jpeg_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy io_master bus_slave0 -latency io_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy eth_slave bus_slave0 -latency eth_slave_latency -buffer_size 0 -sync 1 -power 0
+add_delay_policy bus_slave1 0 -latency 0 -sync 1 -power 0
+add_pipeline_policy sram_master bus_slave1 -latency sram_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy apb_master bus_slave1 -latency apb_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy h264_master bus_slave1 -latency h264_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy lcd_master bus_slave1 -latency lcd_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy jpeg_master bus_slave1 -latency jpeg_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy io_master bus_slave1 -latency io_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy eth_slave bus_slave1 -latency eth_slave_latency -buffer_size 0 -sync 1 -power 0
+add_delay_policy h264_slave 0 -latency 0 -sync 1 -power 0
+add_pipeline_policy sram_master h264_slave -latency sram_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy apb_master h264_slave -latency apb_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy h264_master h264_slave -latency h264_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy lcd_master h264_slave -latency lcd_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy jpeg_master h264_slave -latency jpeg_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy io_master h264_slave -latency io_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy eth_slave h264_slave -latency eth_slave_latency -buffer_size 0 -sync 1 -power 0
+add_delay_policy lcd_slave 0 -latency 0 -sync 1 -power 0
+add_pipeline_policy sram_master lcd_slave -latency sram_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy apb_master lcd_slave -latency apb_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy h264_master lcd_slave -latency h264_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy lcd_master lcd_slave -latency lcd_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy jpeg_master lcd_slave -latency jpeg_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy io_master lcd_slave -latency io_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy eth_slave lcd_slave -latency eth_slave_latency -buffer_size 0 -sync 1 -power 0
+add_delay_policy jpeg_slave 0 -latency 0 -sync 1 -power 0
+add_pipeline_policy sram_master jpeg_slave -latency sram_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy apb_master jpeg_slave -latency apb_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy h264_master jpeg_slave -latency h264_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy lcd_master jpeg_slave -latency lcd_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy jpeg_master jpeg_slave -latency jpeg_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy io_master jpeg_slave -latency io_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy eth_slave jpeg_slave -latency eth_slave_latency -buffer_size 0 -sync 1 -power 0
+add_delay_policy io_slave 0 -latency 0 -sync 1 -power 0
+add_pipeline_policy sram_master io_slave -latency sram_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy apb_master io_slave -latency apb_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy h264_master io_slave -latency h264_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy lcd_master io_slave -latency lcd_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy jpeg_master io_slave -latency jpeg_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy io_master io_slave -latency io_master_latency -buffer_size 0 -sync 1 -power 0
+add_pipeline_policy eth_slave io_slave -latency eth_slave_latency -buffer_size 0 -sync 1 -power 0
+
+# === generate options ===
+set_generate_kind "pvt" ;# should be one of: model|pv|pvt
+set_include_file ""
+set_external_pv_include ""
+set_pv_kind "template" ;# should be one of: template|external
+set_timing_kind "policies" ;# should be: policies
+set_power_kind "policies" ;# should be: policies
+set_class_name_external_pv ""
+set_max_parameters_of_pv_constructor 5
+set_overwrite 0
+set_generate_ipxact 0
+set_ipxact_vendor "Mentor.com"
+set_ipxact_version 1.0
+

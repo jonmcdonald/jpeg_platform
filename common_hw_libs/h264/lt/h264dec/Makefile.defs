@@ -1,0 +1,68 @@
+# 
+# GUC TLM/RTL IP Library Make Definitions
+# 
+
+# Version information
+MAIN_VERSION      = 0.1.0
+EXTRA_VERSION     = -guc
+RELEASE_VERSION   = $(MAIN_VERSION)$(EXTRA_VERSION)
+
+# Compiler, Linker, Archiver, Ranlib
+CC                = vista_c++
+AR                = ar
+LD                = ld
+RANLIB	          = ranlib
+
+# Flags - GNU Tools
+OPT               = -O0#-O2 -m32 
+DEBUG             = -g
+#PROFILE           = -DANALYSIS
+CFLAGS            = $(OPT) $(DEBUG) $(PROFILE) -Wall -Wno-deprecated
+CFLAGS            = $(OPT) $(DEBUG) $(PROFILE) -Wall 
+LDFLAGS           = -lpthread
+ARFLAGS           = rcs
+
+# Flags - Verilator
+VERI_LINT_FLAGS   = -Wno-CASEINCOMPLETE \
+                    -Wno-CASEOVERLAP    \
+                    -Wno-CASEX          \
+                    -Wno-CMPCONST       \
+                    -Wno-COMBDLY        \
+                    -Wno-GENCLK         \
+                    -Wno-IMPLICIT       \
+                    -Wno-IMPURE         \
+                    -Wno-MULTIDRIVEN    \
+                    -Wno-STMTDLY        \
+                    -Wno-UNDRIVEN       \
+                    -Wno-UNOPT          \
+                    -Wno-UNOPTFLAT      \
+                    -Wno-UNSIGNED       \
+                    -Wno-UNUSED         \
+                    -Wno-VARHIDDEN      \
+                    -Wno-WIDTH
+VERI_INC_FLAGS    = -f $(VLOG_SEARCH_FILE)
+VERI_TOP_FLAGS    = --sc $(VERI_INC_FLAGS) $(VERI_LINT_FLAGS) $(VLOG_TOP_FILE)
+
+COMMON            = ./common
+# Included paths - SystemC
+TLM_DIR           = /home/dvolinsk/archive/TLM-2009-07-15
+TLM_INC           = $(TLM_DIR)/include/tlm
+SYSTEMC_DIR       = /home/dvolinsk/systemc22-gcc346
+SYSTEMC_INC       = $(SYSTEMC_DIR)/include
+SYSTEMC           = $(SYSTEMC_DIR)
+SYSTEMC_ARCH      = linux
+SYSTEMC_INC_ALL   = -I$(COMMON)
+#SYSTEMC_INC_ALL   = -I$(SYSTEMC_INC) -I$(TLM_INC) -I$(COMMON) -L$(SYSTEMC_DIR)/lib-$(SYSTEMC_ARCH)
+
+# Exported variables - SystemC
+export SYSTEMC
+export SYSTEMC_ARCH
+
+# Exported variables - Verilator
+export VERILATOR_ROOT
+
+# Enhanced flags - GNU Tools
+CFLAGS           += $(SYSTEMC_INC_ALL)
+
+# Suffixes
+.SUFFIXES : .o .cpp .cc .c

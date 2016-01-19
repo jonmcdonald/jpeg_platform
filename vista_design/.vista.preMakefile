@@ -1,0 +1,23 @@
+#prepare::
+#	echo "*****  User local Makefile called  *****"
+#	$(PRJDIR)/runmake $(PRJDIR)
+#	make -C $(PRJDIR)
+
+
+
+prepare::
+	@#echo "Not using local Makefile"
+	@echo "vista.premakefile: Calling User local Makefile "
+	@+if [ -e $(PRJDIR)/Makefile ]; then eval MAKEFLAGS= && make -j 8 -C $(PRJDIR); fi
+	@echo "vista.premakefile: User local Makefile Complete"
+
+#MY_PREMAKEFILE = $(PRJDIR)/Makefile
+
+#MY_COMMAND = 
+#ifeq ($(wildcard $(MY_PREMAKEFILE)), $(MY_PREMAKEFILE))
+#MY_COMMAND = make -C $(PRJDIR)
+#endif
+
+#prepare::
+#	echo "*****  User local Makefile called  *****"
+#	+$(MY_COMMAND)

@@ -1,0 +1,65 @@
+#--------------------------------------------------------------------------
+# Global UniChip
+# TLM IP Library Makefile
+#--------------------------------------------------------------------------
+# Source: tlm/*, tlm/ldecod/src/*, tlm_ldecod/inc/*
+# Target: tlm/ocb_h264d_top.a
+#--------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------
+# Make Args
+#--------------------------------------------------------------------------
+# TLM-defs
+include ./Makefile.defs
+
+CFLAGS        = -DESLCPP -DSTATIC_ALLOC -DLT_MODEL -DEN_TLM -DT_RGB
+SCCOM_FLAGS   = -incr
+SCCOM         = vista_sccom
+SC_WORK_SCCOM = work/_sc/linux_gcc-4.3.4
+
+#--------------------------------------------------------------------------
+# Make Paths
+#--------------------------------------------------------------------------
+SRCDIR        = ldecod/src
+OBJINC        = -I ldecod/inc
+
+SHARED_LIB    =  $(SC_WORK_SCCOM)/systemc.so
+OBJ           =  $(patsubst $(SRCDIR)/%.cpp,$(SC_WORK_SCCOM)/%.o,$(wildcard $(SRCDIR)/*.cpp))
+SC_WORK_SCCOM := $(patsubst %/,%,$(SC_WORK_SCCOM))
+WORK_SCCOM    =  $(patsubst %/,%,$(call stripdir,$(SC_WORK_SCCOM)))
+stripdir      =  $(dir $(patsubst %/,%,$(dir $1))) # function to strip the rightmost directory name
+
+ifeq ($(MARCH),32)
+    M32_SCCOM   = -32 -m32  # vista_sccom may only recognize -m32 option
+else
+    M32_SCCOM   = # blank
+endif
+
+#--------------------------------------------------------------------------
+# Make Rules
+#--------------------------------------------------------------------------
+
+all: $(SHARED_LIB)
+
+$(SHARED_LIB): $(OBJ)
+	$(SCCOM) $(M32_SCCOM) -linkshared -work $(WORK_SCCOM)
+
+vpath %.cpp $(SRCDIR)
+$(OBJ): $(SC_WORK_SCCOM)/%.o : %.cpp | $(WORK_SCCOM)/_info
+	$(SCCOM) $(M32_SCCOM) $(SCCOM_FLAGS) $(CFLAGS) $(OBJINC) -c $<
+
+$(WORK_SCCOM)/_info: 
+	vlib $(WORK_SCCOM)
+
+
+.PHONY: all clean cleanall clean_all
+clean: 
+	rm -rf core.* spsccLog
+	rm -f *.nsco *.nsca
+	@echo "removing objects from $(SC_WORK_SCCOM), except systemc.so"
+	@rm -f $(OBJ) $(OBJ:%=%.version) $(OBJ:%.o=%.dbs)
+
+cleanall clean_all: clean
+	rm -rf $(WORK_SCCOM) 
+	rm -rf vista_modelsim.ini
+

@@ -1,0 +1,3 @@
+#! /bin/csh -f
+# Run with $CATAPULT_HOME should be set to the <Catapult 2009a.168 install dir>/Mgc_home
+$CATAPULT_HOME/bin/catapult -f dan_setup_partial_new.tcl

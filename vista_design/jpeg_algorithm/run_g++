@@ -1,0 +1,16 @@
+#! /bin/csh -f
+# Set environment variable CATAPULT_HOME to the <Catapult install directory>/Mgc_home
+# A valid g++ for your platform must be in your path
+
+#compile source file
+g++ -I$CATAPULT_HOME/shared/include -c ./bitstream.cpp
+g++ -I$CATAPULT_HOME/shared/include -c ./jpeg.cpp
+g++ -I$CATAPULT_HOME/shared/include -c ./huff.cpp
+
+#compile testbench files
+g++ -I$CATAPULT_HOME/shared/include -c ./bmp.cpp
+g++ -I$CATAPULT_HOME/shared/include -c ./main.cpp
+
+#link object files
+g++ *.o -o jpeg
+./jpeg "./fractal_800x600.bmp" "./fractal_800x600.jpg"
